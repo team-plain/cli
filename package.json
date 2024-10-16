@@ -10,9 +10,6 @@
 		"changeset": "changeset",
 		"release": "changeset publish"
 	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
 	"devDependencies": {
 		"@biomejs/biome": "1.9.3"
 	},
