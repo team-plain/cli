@@ -1,0 +1,25 @@
+{
+	"name": "@team-plain/cli",
+	"version": "0.0.1",
+	"description": "CLI for interacting with the Plain API",
+	"bin": {
+		"plain": "./index.js"
+	},
+	"scripts": {
+		"lint": "biome check .",
+		"changeset": "changeset",
+		"release": "changeset publish"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@biomejs/biome": "1.9.3"
+	},
+	"dependencies": {
+		"@changesets/cli": "^2.27.9",
+		"@team-plain/typescript-sdk": "^5.4.0",
+		"commander": "^12.1.0",
+		"sitemapper": "^3.2.12"
+	}
+}
