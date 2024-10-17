@@ -1,5 +1,6 @@
 {
 	"name": "@team-plain/cli",
+	"private": false,
 	"version": "0.0.4",
 	"description": "CLI for interacting with the Plain API",
 	"main": "./src/index.js",
@@ -11,9 +12,6 @@
 		"changeset": "changeset",
 		"release": "changeset publish"
 	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
 	"devDependencies": {
 		"@biomejs/biome": "1.9.3"
 	},
