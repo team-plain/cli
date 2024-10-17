@@ -2,8 +2,9 @@
 	"name": "@team-plain/cli",
 	"version": "0.0.3",
 	"description": "CLI for interacting with the Plain API",
+	"main": "./src/index.js",
 	"bin": {
-		"plain": "./index.js"
+		"plain": "./src/index.js"
 	},
 	"scripts": {
 		"lint": "biome check .",
