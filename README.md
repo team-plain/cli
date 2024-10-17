@@ -1,6 +1,6 @@
 # @team-plain/cli
 
-This CLI is used to interact with our API.
+This CLI is used to interact with the Plain.com API.
 
 ### Installation
 
