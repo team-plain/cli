@@ -74,7 +74,7 @@ program
 			await indexUrl(url);
 		}
 
-		console.log(`Indexed ${urls.length} urls`);
+		console.log(`Succesfully indexed ${urls.length} urls`);
 	});
 
 program.parse(process.argv);
