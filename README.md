@@ -17,7 +17,7 @@ The cli has a help command that can be used to get more information about the av
 plain --help
 ```
 
-## Authentication 
+## Authentication
 
 To authenticate with your Plain workspace, the CLI uses a [Plain API Key](https://www.plain.com/docs/api-reference/graphql/authentication). The key is read from the environment varialble `PLAIN_API_KEY`
 
@@ -28,28 +28,33 @@ export PLAIN_API_KEY=plainApiKey_xxx
 
 ## Commands
 
-### Documents
+### Index Documents
 
 These commands are used for indexing documents for use with Smart AI Responses. The contents of provided urls are scraped and indexed using Open AI.
 
 ### `index-url`
 
+Index a single document by URL.
+
 Required permissions: `indexedDocument:create`
-
-#### Index a document
-
-Index a single document by URL. 
 
 ```
 plain index-url <url>
 ```
 
-#### `index-sitemap`
+Options:
+- `-l, --labelTypeIds <labelTypeIds...>`: Array of label type IDs to associate with the indexed url
+
+### `index-sitemap`
+
+Index all the urls in a given sitemap you provide.
 
 Required permissions: `indexedDocument:create`
 
-This will index all the urls in a given sitemap you provide.
+```
+plain index-sitemap <sitemap url>`
+```
 
-```
-plain index-sitemap <sitemap url>
-```
+Options:
+
+- `-l, --labelTypeIds <labelTypeIds...>`: Array of label type IDs to associate with the indexed url from the sitemap.
