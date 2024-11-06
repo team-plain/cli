@@ -1,5 +1,11 @@
 # @team-plain/cli
 
+## 0.1.0
+
+### Minor Changes
+
+- 0250e9d: - Add support for labelTypeIds to index-url and index-sitemap
+
 ## 0.0.4
 
 ### Patch Changes
