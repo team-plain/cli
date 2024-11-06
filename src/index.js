@@ -15,7 +15,7 @@ function getClient() {
 	}
 
 	if (apiUrl) {
-		console.info('using PLAIN_API_URL provided from environment: ', apiUrl);
+		console.info("Using PLAIN_API_URL provided from environment: ", apiUrl);
 	}
 
 	return new PlainClient({
@@ -34,14 +34,14 @@ async function indexUrl(url, labelTypeIds = []) {
 
 	const res = await client.indexDocument({
 		url,
-		labelTypeIds
+		labelTypeIds,
 	});
 
 	if (res.isErr) {
 		handleError(res.error.message, res.error.requestId);
 	}
 
-	console.log(`✅ Succesfully indexed ${url}`);
+	console.log(`✅ Successfully indexed ${url}`);
 }
 
 program.name("plain").version(packageJson.version).description("Plain CLI");
@@ -54,7 +54,7 @@ program
 	.argument("<url>")
 	.option("-l, --labelTypeIds <labelTypeIds...>", "Array of label type IDs")
 	.action(async (url, options) => {
-		indexUrl(url,  options.labelTypeIds);
+		await indexUrl(url, options.labelTypeIds);
 	});
 
 program
@@ -80,7 +80,7 @@ program
 			await indexUrl(url, labelTypeIds);
 		}
 
-		console.log(`Succesfully indexed ${urls.length} urls`);
+		console.log(`Successfully indexed ${urls.length} urls`);
 	});
 
 program.parse(process.argv);

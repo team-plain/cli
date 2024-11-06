@@ -9,6 +9,7 @@
 	},
 	"scripts": {
 		"lint": "biome check .",
+		"lint:fix": "biome check . --write",
 		"changeset": "changeset",
 		"release": "changeset publish"
 	},
@@ -17,7 +18,7 @@
 	},
 	"dependencies": {
 		"@changesets/cli": "^2.27.9",
-		"@team-plain/typescript-sdk": "^5.4.0",
+		"@team-plain/typescript-sdk": "^5.5.0",
 		"commander": "^12.1.0",
 		"sitemapper": "^3.2.12"
 	}
