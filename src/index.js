@@ -6,19 +6,22 @@ const { PlainClient } = require("@team-plain/typescript-sdk");
 const Sitemapper = require("sitemapper");
 
 function getClient() {
-	const envVarName = "PLAIN_API_KEY";
-	const apiKey = process.env[envVarName];
+	const apiKey = process.env.PLAIN_API_KEY;
+	const apiUrl = process.env.PLAIN_API_URL;
 
 	if (!apiKey) {
 		console.error("Error: PLAIN_API_KEY environment variable is not set.");
 		process.exit(1);
 	}
 
-	const client = new PlainClient({
-		apiKey,
-	});
+	if (apiUrl) {
+		console.info("Using PLAIN_API_URL provided from environment: ", apiUrl);
+	}
 
-	return client;
+	return new PlainClient({
+		apiKey,
+		apiUrl,
+	});
 }
 
 function handleError(message, requestId = "–") {
@@ -26,18 +29,19 @@ function handleError(message, requestId = "–") {
 	process.exit(1);
 }
 
-async function indexUrl(url) {
+async function indexUrl(url, labelTypeIds = []) {
 	const client = getClient();
 
 	const res = await client.indexDocument({
 		url,
+		labelTypeIds,
 	});
 
 	if (res.isErr) {
 		handleError(res.error.message, res.error.requestId);
 	}
 
-	console.log(`✅ Succesfully indexed ${url}`);
+	console.log(`✅ Successfully indexed ${url}`);
 }
 
 program.name("plain").version(packageJson.version).description("Plain CLI");
@@ -48,8 +52,9 @@ program
 		"This will index a specific url you provide.\n\nTo use this you need to set an environment variable called PLAIN_API_KEY with the following permissions: \n- indexedDocument:create",
 	)
 	.argument("<url>")
-	.action(async (url) => {
-		indexUrl(url);
+	.option("-l, --labelTypeIds <labelTypeIds...>", "Array of label type IDs")
+	.action(async (url, options) => {
+		await indexUrl(url, options.labelTypeIds);
 	});
 
 program
@@ -58,9 +63,10 @@ program
 		"This will index all the urls in a given sitemap you provide.\n\nTo use this you need to set an environment variable called PLAIN_API_KEY with the following permissions: \n- indexedDocument:create",
 	)
 	.argument("<sitemap url>")
-	.action(async (url) => {
+	.option("-l, --labelTypeIds <labelTypeIds...>", "Array of label type IDs")
+	.action(async (url, options) => {
 		const sitemap = new Sitemapper();
-
+		const labelTypeIds = options.labelTypeIds;
 		const urls = [];
 
 		try {
@@ -71,10 +77,10 @@ program
 		}
 
 		for (const url of urls) {
-			await indexUrl(url);
+			await indexUrl(url, labelTypeIds);
 		}
 
-		console.log(`Succesfully indexed ${urls.length} urls`);
+		console.log(`Successfully indexed ${urls.length} urls`);
 	});
 
 program.parse(process.argv);

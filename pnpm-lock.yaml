@@ -9,8 +9,8 @@ dependencies:
     specifier: ^2.27.9
     version: 2.27.9
   '@team-plain/typescript-sdk':
-    specifier: ^5.4.0
-    version: 5.4.0
+    specifier: ^5.5.0
+    version: 5.5.0
   commander:
     specifier: ^12.1.0
     version: 12.1.0
@@ -360,8 +360,8 @@ packages:
       defer-to-connect: 2.0.1
     dev: false
 
-  /@team-plain/typescript-sdk@5.4.0:
-    resolution: {integrity: sha512-BDLNjxwp7OP+i7pvxef0wxQ9ZKIb8U1cVe5zTFTUCw2m4a+9NAsX2Bx+p8i5CFNwJDEqrtEl65cwSwmnFP3GEg==}
+  /@team-plain/typescript-sdk@5.5.0:
+    resolution: {integrity: sha512-rlX81oOFEk7V/IxRahH35Yps87MyQzjw4x8Or1wSsD9y3YeLdm/5aaStDGT3hGB+VMZnV0KwwWHeAZYhqp7A2A==}
     dependencies:
       '@graphql-typed-document-node/core': 3.2.0(graphql@16.9.0)
       ajv: 8.17.1
