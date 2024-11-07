@@ -1,5 +1,11 @@
 # @team-plain/cli
 
+## 0.1.1
+
+### Patch Changes
+
+- e65c4fd: Fix error handling for index-sitemap
+
 ## 0.1.0
 
 ### Minor Changes
