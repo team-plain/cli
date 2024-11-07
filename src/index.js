@@ -77,7 +77,10 @@ program
 		}
 
 		for (const url of urls) {
-			await indexUrl(url, labelTypeIds);
+			const res = await indexUrl(url, labelTypeIds);
+			if (res.isErr) {
+				handleError(res.error.message, res.error.requestId);
+			}
 		}
 
 		console.log(`Successfully indexed ${urls.length} urls`);
