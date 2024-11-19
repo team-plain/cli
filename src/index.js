@@ -31,7 +31,7 @@ function handleError(message, requestId = "–") {
 
 async function indexUrl(url, labelTypeIds = []) {
 	const client = getClient();
-	const res =  client.indexDocument({
+	const res = client.indexDocument({
 		url,
 		labelTypeIds,
 	});
