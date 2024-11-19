@@ -1,5 +1,11 @@
 # @team-plain/cli
 
+## 0.1.2
+
+### Patch Changes
+
+- 3de5608: Test release process
+
 ## 0.1.1
 
 ### Patch Changes
