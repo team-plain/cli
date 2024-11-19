@@ -31,17 +31,10 @@ function handleError(message, requestId = "–") {
 
 async function indexUrl(url, labelTypeIds = []) {
 	const client = getClient();
-
-	const res = await client.indexDocument({
+	return client.indexDocument({
 		url,
 		labelTypeIds,
 	});
-
-	if (res.isErr) {
-		handleError(res.error.message, res.error.requestId);
-	}
-
-	console.log(`✅ Successfully indexed ${url}`);
 }
 
 program.name("plain").version(packageJson.version).description("Plain CLI");
@@ -54,7 +47,12 @@ program
 	.argument("<url>")
 	.option("-l, --labelTypeIds <labelTypeIds...>", "Array of label type IDs")
 	.action(async (url, options) => {
-		await indexUrl(url, options.labelTypeIds);
+		const res = await indexUrl(url, options.labelTypeIds);
+		if (res.isErr) {
+			handleError(res.error.message, res.error.requestId);
+		} else {
+			console.log(`✅ Successfully indexed ${url}`);
+		}
 	});
 
 program
@@ -74,12 +72,15 @@ program
 			urls.push(...res.sites);
 		} catch (e) {
 			console.err(`Failed to fetch sitemap: ${e.message}`);
+			process.exit(1);
 		}
 
 		for (const url of urls) {
 			const res = await indexUrl(url, labelTypeIds);
 			if (res.isErr) {
 				handleError(res.error.message, res.error.requestId);
+			} else {
+				console.log(`✅ Successfully indexed ${url}`);
 			}
 		}
 
