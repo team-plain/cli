@@ -23,11 +23,16 @@ jobs:
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
+      - uses: tibdex/github-app-token@v1
+        id: generate-token
+        with:
+          app_id: ${{ secrets.GH_WORKFLOW_APP_ID }}
+          private_key: ${{ secrets.GH_WORKFLOW_APP_PRIVATE_KEY }}        
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
         with:
           publish: pnpm run release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
