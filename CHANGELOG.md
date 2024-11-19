@@ -1,5 +1,11 @@
 # @team-plain/cli
 
+## 0.2.0
+
+### Minor Changes
+
+- 81c28ff: Fixed error handling
+
 ## 0.1.2
 
 ### Patch Changes
