@@ -31,10 +31,15 @@ function handleError(message, requestId = "–") {
 
 async function indexUrl(url, labelTypeIds = []) {
 	const client = getClient();
-	return client.indexDocument({
+	const res =  client.indexDocument({
 		url,
 		labelTypeIds,
 	});
+	if (res.isErr) {
+		handleError(res.error.message, res.error.requestId);
+	} else {
+		console.log(`✅ Successfully indexed ${url}`);
+	}
 }
 
 program.name("plain").version(packageJson.version).description("Plain CLI");
@@ -47,12 +52,7 @@ program
 	.argument("<url>")
 	.option("-l, --labelTypeIds <labelTypeIds...>", "Array of label type IDs")
 	.action(async (url, options) => {
-		const res = await indexUrl(url, options.labelTypeIds);
-		if (res.isErr) {
-			handleError(res.error.message, res.error.requestId);
-		} else {
-			console.log(`✅ Successfully indexed ${url}`);
-		}
+		await indexUrl(url, options.labelTypeIds);
 	});
 
 program
@@ -76,14 +76,8 @@ program
 		}
 
 		for (const url of urls) {
-			const res = await indexUrl(url, labelTypeIds);
-			if (res.isErr) {
-				handleError(res.error.message, res.error.requestId);
-			} else {
-				console.log(`✅ Successfully indexed ${url}`);
-			}
+			await indexUrl(url, labelTypeIds);
 		}
-
 		console.log(`Successfully indexed ${urls.length} urls`);
 	});
 
