@@ -1,5 +1,11 @@
 # @team-plain/cli
 
+## 0.2.1
+
+### Patch Changes
+
+- 0be71aa: Fix non awaited promise
+
 ## 0.2.0
 
 ### Minor Changes
