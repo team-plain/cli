@@ -35,7 +35,7 @@ async function indexUrl(url, labelTypeIds = []) {
 		url,
 		labelTypeIds,
 	});
-	if (res.isErr) {
+	if (res.error) {
 		handleError(res.error.message, res.error.requestId);
 	} else {
 		console.log(`✅ Successfully indexed ${url}`);
