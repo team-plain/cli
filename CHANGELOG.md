@@ -1,5 +1,11 @@
 # @team-plain/cli
 
+## 0.2.2
+
+### Patch Changes
+
+- ebe38b7: Fix error handling
+
 ## 0.2.1
 
 ### Patch Changes
