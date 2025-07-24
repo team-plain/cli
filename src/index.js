@@ -63,22 +63,17 @@ program
 	.argument("<sitemap url>")
 	.option("-l, --labelTypeIds <labelTypeIds...>", "Array of label type IDs")
 	.action(async (url, options) => {
-		const sitemap = new Sitemapper();
-		const labelTypeIds = options.labelTypeIds;
-		const urls = [];
-
-		try {
-			const res = await sitemap.fetch(url);
-			urls.push(...res.sites);
-		} catch (e) {
-			console.err(`Failed to fetch sitemap: ${e.message}`);
-			process.exit(1);
+		const client = getClient();
+		const res = await client.createKnowledgeSource({
+			url,
+			labelTypeIds: options.labelTypeIds,
+			type: "SITEMAP",
+		});
+		if (res.error) {
+			handleError(res.error.message, res.error.requestId);
+		} else {
+			console.log(`✅ Successfully indexed sitemap ${url}`);
 		}
-
-		for (const url of urls) {
-			await indexUrl(url, labelTypeIds);
-		}
-		console.log(`Successfully indexed ${urls.length} urls`);
 	});
 
 program.parse(process.argv);
