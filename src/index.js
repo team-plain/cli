@@ -65,7 +65,7 @@ program
 		const client = getClient();
 		const res = await client.createKnowledgeSource({
 			url,
-			labelTypeIds: options.labelTypeIds,
+			labelTypeIds: options.labelTypeIds || [],
 			type: "SITEMAP",
 		});
 		if (res.error) {
