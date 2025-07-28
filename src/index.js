@@ -3,7 +3,6 @@
 const { program } = require("commander");
 const packageJson = require("../package.json");
 const { PlainClient } = require("@team-plain/typescript-sdk");
-const Sitemapper = require("sitemapper");
 
 function getClient() {
 	const apiKey = process.env.PLAIN_API_KEY;
