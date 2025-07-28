@@ -1,5 +1,11 @@
 # @team-plain/cli
 
+## 0.3.1
+
+### Patch Changes
+
+- 7413182: Fix uneeded import
+
 ## 0.3.0
 
 ### Minor Changes
