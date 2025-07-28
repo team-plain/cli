@@ -1,5 +1,11 @@
 # @team-plain/cli
 
+## 0.3.2
+
+### Patch Changes
+
+- daf2b86: Add labelTypes default to index-sitemap
+
 ## 0.3.1
 
 ### Patch Changes
