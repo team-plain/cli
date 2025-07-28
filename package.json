@@ -1,7 +1,7 @@
 {
 	"name": "@team-plain/cli",
 	"private": false,
-	"version": "0.2.2",
+	"version": "0.3.0",
 	"description": "CLI for interacting with the Plain API",
 	"main": "./src/index.js",
 	"bin": {
