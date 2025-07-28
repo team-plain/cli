@@ -1,5 +1,15 @@
 # @team-plain/cli
 
+## 0.3.0
+
+### Minor Changes
+
+- 69d1072: Update sitemap function to create a knowledge source
+
+### Patch Changes
+
+- 09b3f99: Update index-sitemap logging
+
 ## 0.2.2
 
 ### Patch Changes
