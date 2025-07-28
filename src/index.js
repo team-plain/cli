@@ -72,7 +72,9 @@ program
 		if (res.error) {
 			handleError(res.error.message, res.error.requestId);
 		} else {
-			console.log(`✅ Successfully indexed sitemap ${url}`);
+			console.log(
+				`✅ Successfully indexed sitemap ${url} - The sitemap will be indexed and knowledge sources will be available in Plain. See https://plain.support.site/article/plain-ai-knowledge-sources for more information.`,
+			);
 		}
 	});
 
