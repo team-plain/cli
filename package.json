@@ -18,7 +18,7 @@
 		"@changesets/cli": "^2.27.9"
 	},
 	"dependencies": {
-		"@team-plain/typescript-sdk": "^5.10.0",
+		"@team-plain/typescript-sdk": "^5.10.3",
 		"commander": "^12.1.0"
 	}
 }
