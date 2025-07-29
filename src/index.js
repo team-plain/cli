@@ -28,19 +28,6 @@ function handleError(message, requestId = "–") {
 	process.exit(1);
 }
 
-async function indexUrl(url, labelTypeIds = []) {
-	const client = getClient();
-	const res = await client.indexDocument({
-		url,
-		labelTypeIds,
-	});
-	if (res.error) {
-		handleError(res.error.message, res.error.requestId);
-	} else {
-		console.log(`✅ Successfully indexed ${url}`);
-	}
-}
-
 program.name("plain").version(packageJson.version).description("Plain CLI");
 
 program
@@ -51,7 +38,19 @@ program
 	.argument("<url>")
 	.option("-l, --labelTypeIds <labelTypeIds...>", "Array of label type IDs")
 	.action(async (url, options) => {
-		await indexUrl(url, options.labelTypeIds);
+		const client = getClient();
+		const res = await client.createKnowledgeSource({
+			url,
+			labelTypeIds: options.labelTypeIds || [],
+			type: "URL",
+		});
+		if (res.error) {
+			handleError(res.error.message, res.error.requestId);
+		} else {
+			console.log(
+				`✅ Successfully indexed URL ${url} - The URL will be indexed and knowledge sources will be available in Plain. See https://plain.support.site/article/plain-ai-knowledge-sources for more information.`,
+			);
+		}
 	});
 
 program
