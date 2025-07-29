@@ -1,5 +1,11 @@
 # @team-plain/cli
 
+## 0.4.0
+
+### Minor Changes
+
+- 2d75379: Use knowledge source for index URL
+
 ## 0.3.2
 
 ### Patch Changes
