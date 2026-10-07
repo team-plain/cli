@@ -1,40 +1,54 @@
+<img src="./logo.png" alt="Plain" width="100px">
+
+<!-- omit in toc -->
 # @team-plain/cli
 
-This CLI is used to interact with the Plain.com API.
+CLI for interacting with the [Plain](https://www.plain.com) API.
 
-If you run into any issues please open an issue or get in touch with us at [help@plain.com](mailto:help@plain.com).
+Specifically for indexing content as
+[Knowledge Sources](https://www.plain.com/docs/product/agents/knowledge-sources) in your Plain
+workspaces, to be used by [Plain Agents](https://www.plain.com/docs/product/agents).
+
+- [Installation](#installation)
+- [Authentication](#authentication)
+- [Commands](#commands)
+  - [Knowledge Sources](#knowledge-sources)
+  - [`index-url`](#index-url)
+  - [`index-sitemap`](#index-sitemap)
+- [Running in CI](#running-in-ci)
+
 
 ## Installation
 
 Requires Node.js 22.12 or later.
 
-```
+```bash
 npm install -g @team-plain/cli
-```
-
-This installs the package globally and makes the `plain` command available in your path.
-
-The cli has a help command that can be used to get more information about the available commands:
-
-```
 plain --help
 ```
 
 ## Authentication
 
-To authenticate with your Plain workspace, the CLI uses a [Plain API Key](https://www.plain.com/docs/api-reference/graphql/authentication). The key is read from the environment variable `PLAIN_API_KEY`.
+To authenticate with your Plain workspace, the CLI uses a
+[Plain API Key](https://www.plain.com/docs/api-reference/graphql/authentication), read from the
+`PLAIN_API_KEY` environment variable.
 
-See below for permissions required for each command.
-
-```
-export PLAIN_API_KEY=plainApiKey_xxx
+```bash
+export PLAIN_API_KEY=plainApiKey_xxx plain ...
 ```
 
 ## Commands
 
 ### Knowledge Sources
 
-These commands add pages to Plain as [knowledge sources](https://www.plain.com/docs/product/agents/knowledge-sources), which Ari uses to answer customers. Plain fetches and indexes the content of each URL. Running a command again for a URL that's already a knowledge source reindexes it.
+Commands for indexing content as
+[Knowledge Sources](https://www.plain.com/docs/product/agents/knowledge-sources) in your Plain
+workspace, so that [Plain Agents](https://www.plain.com/docs/product/agents), such as
+[Ari](https://www.plain.com/docs/product/agents/ari), can use it to answer customer questions and as
+context.
+
+Each command fetches and indexes the content of the provided URL or sitemap. Running a command again
+for a URL or sitemap that's already a knowledge source reindexes it.
 
 ### `index-url`
 
@@ -42,8 +56,8 @@ Index a single page by URL.
 
 Required permissions: `knowledgeSource:create`
 
-```
-plain index-url <url>
+```bash
+export PLAIN_API_KEY=plainApiKey_xxx plain index-url <url>
 ```
 
 Options:
@@ -57,16 +71,18 @@ Index all the urls in a given sitemap you provide.
 Required permissions: `knowledgeSource:create`
 
 ```
-plain index-sitemap <sitemap url>
+export PLAIN_API_KEY=plainApiKey_xxx plain index-sitemap <sitemap url>
 ```
 
 Options:
 
-- `-l, --labelTypeIds <labelTypeIds...>`: Array of label type IDs to associate with the indexed urls from the sitemap
+- `-l, --labelTypeIds <labelTypeIds...>`: Array of label type IDs to associate with the indexed urls
+  from the sitemap
 
 ## Running in CI
 
-Pin the major version so a future breaking release can't change your workflow unannounced. For example, to reindex your docs from GitHub Actions:
+Use the CLI in your CI pipeline to index your content as Knowledge Sources, for example when you
+publish new documentation to a Mintlify site.
 
 ```yaml
 - uses: actions/setup-node@v7
