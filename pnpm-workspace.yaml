@@ -1,0 +1,2 @@
+# 7 days. Keep at or below the Dependabot cooldown, or pnpm rejects its updates.
+minimumReleaseAge: 10080
