@@ -1,4 +1,6 @@
-<img src="./logo.png" alt="Plain" width="100px">
+<div align="center">
+  <img src="./logo.png" alt="Plain" width="100px">
+</div>
 
 <!-- omit in toc -->
 # @team-plain/cli
