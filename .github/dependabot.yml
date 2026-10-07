@@ -47,3 +47,8 @@ updates:
           - "*"
         update-types:
           - "major"
+    ignore:
+      # Tracks the minimum supported runtime in engines.node, not latest.
+      - dependency-name: "@types/node"
+        update-types:
+          - "version-update:semver-major"

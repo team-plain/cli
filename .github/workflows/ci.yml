@@ -32,6 +32,18 @@ jobs:
       - name: Check formatting
         run: pnpm format:check
 
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Build
+        run: pnpm build
+
+      - name: Check the built CLI stays within its size limit
+        run: pnpm exec size-limit
+
+      - name: Check the package for publishing problems
+        run: pnpm exec publint --strict
+
   test:
     name: Test (Node ${{ matrix.node }})
     runs-on: ubuntu-latest
@@ -52,8 +64,10 @@ jobs:
           cache: true
           require-lockfile: true
 
-      - name: Pack the CLI
-        run: pnpm pack --pack-destination "$RUNNER_TEMP"
+      - name: Build and pack the CLI
+        run: |
+          pnpm build
+          pnpm pack --pack-destination "$RUNNER_TEMP"
 
       # Customers run the CLI on their own Node.js, not the one in .nvmrc.
       - name: Set up Node.js ${{ matrix.node }}
@@ -61,8 +75,9 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
+      # Node.js 22 needs the flag to run TypeScript; on 24 it's on by default.
       - name: Test
-        run: node --test
+        run: node --experimental-strip-types --test test/*.test.ts
 
       - name: Install the packed CLI and run it
         run: |

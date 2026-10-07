@@ -1,15 +1,19 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { createServer } from "node:http";
+import { createServer, type Server } from "node:http";
+import type { AddressInfo } from "node:net";
 import { after, before, beforeEach, describe, test } from "node:test";
 import { fileURLToPath } from "node:url";
 
-const CLI = fileURLToPath(new URL("../src/index.js", import.meta.url));
+const CLI = fileURLToPath(new URL("../dist/index.mjs", import.meta.url));
 
-let server;
-let apiUrl;
-let requests;
-let respond;
+type Response = { status: number; json: unknown };
+type Request = { authorization?: string; body: { variables: unknown } };
+
+let server: Server;
+let apiUrl: string;
+let requests: Request[];
+let respond: () => Response;
 
 before(async () => {
 	server = createServer((req, res) => {
@@ -27,8 +31,10 @@ before(async () => {
 			res.end(JSON.stringify(json));
 		});
 	});
-	await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
-	apiUrl = `http://127.0.0.1:${server.address().port}/graphql`;
+	await new Promise<void>((resolve) =>
+		server.listen(0, "127.0.0.1", () => resolve()),
+	);
+	apiUrl = `http://127.0.0.1:${(server.address() as AddressInfo).port}/graphql`;
 });
 
 after(() => server.close());
@@ -39,11 +45,14 @@ beforeEach(() => {
 		mutationResponse({ knowledgeSource: { id: "ks_1" }, error: null });
 });
 
-function mutationResponse(createKnowledgeSource) {
+function mutationResponse(createKnowledgeSource: unknown): Response {
 	return { status: 200, json: { data: { createKnowledgeSource } } };
 }
 
-function run(args, env = { PLAIN_API_KEY: "plainApiKey_test" }) {
+function run(
+	args: string[],
+	env: Record<string, string> = { PLAIN_API_KEY: "plainApiKey_test" },
+): Promise<{ code: number | null; stdout: string; stderr: string }> {
 	return new Promise((resolve) => {
 		const child = spawn(process.execPath, [CLI, ...args], {
 			env: { PATH: process.env.PATH, PLAIN_API_URL: apiUrl, ...env },

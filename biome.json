@@ -1,6 +1,6 @@
 {
 	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
 	"files": {
-		"includes": ["**/*.js", "**/*.json", "**/*.md", "**/*.yml"]
+		"includes": ["**/*.ts", "**/*.json", "**/*.yml", "!**/dist"]
 	}
 }
