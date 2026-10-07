@@ -7,9 +7,16 @@
 		"type": "git",
 		"url": "git+https://github.com/team-plain/cli.git"
 	},
+	"type": "module",
 	"main": "./src/index.js",
 	"bin": {
 		"plain": "./src/index.js"
+	},
+	"files": [
+		"src"
+	],
+	"engines": {
+		"node": ">=22.12.0"
 	},
 	"scripts": {
 		"lint": "biome lint .",
@@ -17,15 +24,16 @@
 		"format:check": "biome format .",
 		"check": "biome check --write .",
 		"changeset": "changeset",
-		"release": "changeset publish"
+		"release": "changeset publish",
+		"test": "node --test"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.5.14",
 		"@changesets/cli": "^3.0.3"
 	},
 	"dependencies": {
-		"@team-plain/typescript-sdk": "^5.10.3",
-		"commander": "^12.1.0"
+		"@team-plain/graphql": "^3.2.0",
+		"commander": "^15.0.0"
 	},
 	"packageManager": "pnpm@12.8.2+sha512.a5941679663d952c5f0ecc38ba98af98b4dc01b95780354f6894f2f873973cef2f7e2989d7db3ee5393938ae21f62fe06bcdf685d475ddad829a62095d2b8b11"
 }

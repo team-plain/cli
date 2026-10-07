@@ -1,8 +1,12 @@
 #!/usr/bin/env node
 
-const { program } = require("commander");
-const packageJson = require("../package.json");
-const { PlainClient } = require("@team-plain/typescript-sdk");
+import { PlainClient } from "@team-plain/graphql";
+import { program } from "commander";
+import packageJson from "../package.json" with { type: "json" };
+
+const DOCS_URL = "https://www.plain.com/docs/product/agents/knowledge-sources";
+const PERMISSIONS_HELP =
+	"To use this you need to set an environment variable called PLAIN_API_KEY with the following permissions: \n- knowledgeSource:create";
 
 function getClient() {
 	const apiKey = process.env.PLAIN_API_KEY;
@@ -23,9 +27,22 @@ function getClient() {
 	});
 }
 
-function handleError(message, requestId = "–") {
-	console.error(`Failed to index document: ${message} (${requestId})`);
+function fail(url, message) {
+	console.error(`Failed to index ${url}: ${message}`);
 	process.exit(1);
+}
+
+async function createKnowledgeSource(url, type, labelTypeIds = []) {
+	try {
+		const { error } = await getClient().mutation.createKnowledgeSource({
+			input: { url, type, labelTypeIds },
+		});
+		if (error) {
+			fail(url, `${error.message} (${error.code})`);
+		}
+	} catch (err) {
+		fail(url, err.message);
+	}
 }
 
 program.name("plain").version(packageJson.version).description("Plain CLI");
@@ -33,47 +50,29 @@ program.name("plain").version(packageJson.version).description("Plain CLI");
 program
 	.command("index-url")
 	.description(
-		"This will index a specific url you provide.\n\nTo use this you need to set an environment variable called PLAIN_API_KEY with the following permissions: \n- indexedDocument:create",
+		`This will index a specific url you provide.\n\n${PERMISSIONS_HELP}`,
 	)
 	.argument("<url>")
 	.option("-l, --labelTypeIds <labelTypeIds...>", "Array of label type IDs")
 	.action(async (url, options) => {
-		const client = getClient();
-		const res = await client.createKnowledgeSource({
-			url,
-			labelTypeIds: options.labelTypeIds || [],
-			type: "URL",
-		});
-		if (res.error) {
-			handleError(res.error.message, res.error.requestId);
-		} else {
-			console.log(
-				`✅ Successfully indexed URL ${url} - The URL will be indexed and knowledge sources will be available in Plain. See https://plain.support.site/article/plain-ai-knowledge-sources for more information.`,
-			);
-		}
+		await createKnowledgeSource(url, "URL", options.labelTypeIds);
+		console.log(
+			`✅ Successfully indexed URL ${url} - The URL will be indexed and knowledge sources will be available in Plain. See ${DOCS_URL} for more information.`,
+		);
 	});
 
 program
 	.command("index-sitemap")
 	.description(
-		"This will index all the urls in a given sitemap you provide.\n\nTo use this you need to set an environment variable called PLAIN_API_KEY with the following permissions: \n- indexedDocument:create",
+		`This will index all the urls in a given sitemap you provide.\n\n${PERMISSIONS_HELP}`,
 	)
 	.argument("<sitemap url>")
 	.option("-l, --labelTypeIds <labelTypeIds...>", "Array of label type IDs")
 	.action(async (url, options) => {
-		const client = getClient();
-		const res = await client.createKnowledgeSource({
-			url,
-			labelTypeIds: options.labelTypeIds || [],
-			type: "SITEMAP",
-		});
-		if (res.error) {
-			handleError(res.error.message, res.error.requestId);
-		} else {
-			console.log(
-				`✅ Successfully indexed sitemap ${url} - The sitemap will be indexed and knowledge sources will be available in Plain. See https://plain.support.site/article/plain-ai-knowledge-sources for more information.`,
-			);
-		}
+		await createKnowledgeSource(url, "SITEMAP", options.labelTypeIds);
+		console.log(
+			`✅ Successfully indexed sitemap ${url} - The sitemap will be indexed and knowledge sources will be available in Plain. See ${DOCS_URL} for more information.`,
+		);
 	});
 
 program.parse(process.argv);
