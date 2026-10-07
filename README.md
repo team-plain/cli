@@ -36,7 +36,7 @@ To authenticate with your Plain workspace, the CLI uses a
 `PLAIN_API_KEY` environment variable.
 
 ```bash
-export PLAIN_API_KEY=plainApiKey_xxx plain ...
+export PLAIN_API_KEY=plainApiKey_xxx
 ```
 
 ## Commands
@@ -59,7 +59,7 @@ Index a single page by URL.
 Required permissions: `knowledgeSource:create`
 
 ```bash
-export PLAIN_API_KEY=plainApiKey_xxx plain index-url <url>
+PLAIN_API_KEY=plainApiKey_xxx plain index-url <url>
 ```
 
 Options:
@@ -73,7 +73,7 @@ Index all the urls in a given sitemap you provide.
 Required permissions: `knowledgeSource:create`
 
 ```
-export PLAIN_API_KEY=plainApiKey_xxx plain index-sitemap <sitemap url>
+PLAIN_API_KEY=plainApiKey_xxx plain index-sitemap <sitemap url>
 ```
 
 Options:
