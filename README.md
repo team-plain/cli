@@ -72,7 +72,7 @@ Index all the urls in a given sitemap you provide.
 
 Required permissions: `knowledgeSource:create`
 
-```
+```bash
 PLAIN_API_KEY=plainApiKey_xxx plain index-sitemap <sitemap url>
 ```
 
