@@ -3,6 +3,10 @@
 	"private": false,
 	"version": "0.4.0",
 	"description": "CLI for interacting with the Plain API",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/team-plain/cli.git"
+	},
 	"main": "./src/index.js",
 	"bin": {
 		"plain": "./src/index.js"
