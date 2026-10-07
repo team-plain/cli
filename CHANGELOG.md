@@ -8,7 +8,8 @@
   
   - Requires Node.js 22.12 or later. Node.js 18 and 20 are end of life. To stay on them, pin `@team-plain/cli@0`.
   - The API key needs the `knowledgeSource:create` permission. The README and `--help` previously said `indexedDocument:create`, which was wrong.
-  - Errors now print as a single line with the error code, without a request ID or stack trace.
+  - Errors print as a single line, with the API error code where there is one, in place of the request ID.
+  - Passing more arguments than a command takes is now an error. `plain index-url a b` previously indexed `a` and ignored `b`.
 
 ## 0.4.0
 
