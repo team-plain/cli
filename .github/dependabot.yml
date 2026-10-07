@@ -1,0 +1,49 @@
+---
+version: 2
+
+updates:
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      time: "10:30"
+      timezone: "Europe/London"
+    # A week gives compromised action releases time to be discovered before adoption.
+    cooldown:
+      default-days: 7
+    groups:
+      gha-deps:
+        patterns:
+          - "*"
+
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+      time: "10:30"
+      timezone: "Europe/London"
+    versioning-strategy: increase
+    # Must be at least minimumReleaseAge in pnpm-workspace.yaml.
+    cooldown:
+      default-days: 7
+    groups:
+      npm-patch:
+        applies-to: version-updates
+        patterns:
+          - "*"
+        update-types:
+          - "patch"
+      npm-minor:
+        applies-to: version-updates
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+      # Without group-by, every major lands in one combined PR.
+      npm-major:
+        applies-to: version-updates
+        group-by: dependency-name
+        patterns:
+          - "*"
+        update-types:
+          - "major"
