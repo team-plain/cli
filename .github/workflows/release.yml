@@ -18,19 +18,26 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+      - name: Check out the repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up pnpm and Node.js, install dependencies
+        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
         with:
           node-version-file: .nvmrc
           cache: true
           require-lockfile: true
-      - uses: tibdex/github-app-token@v1
+
+      - name: Generate a GitHub App token
+        uses: actions/create-github-app-token@v3
         id: generate-token
         with:
-          app_id: ${{ secrets.GH_WORKFLOW_APP_ID }}
-          private_key: ${{ secrets.GH_WORKFLOW_APP_PRIVATE_KEY }}        
-      - name: Create Release Pull Request or Publish to npm
-        id: changesets
+          app-id: ${{ secrets.GH_WORKFLOW_APP_ID }}
+          private-key: ${{ secrets.GH_WORKFLOW_APP_PRIVATE_KEY }}
+
+      - name: Create Release PR or publish to npm
         uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
         with:
           github-token: ${{ steps.generate-token.outputs.token }}
