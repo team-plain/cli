@@ -2,8 +2,9 @@ import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
 import { createServer } from "node:http";
 import { after, before, beforeEach, describe, test } from "node:test";
+import { fileURLToPath } from "node:url";
 
-const CLI = new URL("../src/index.js", import.meta.url).pathname;
+const CLI = fileURLToPath(new URL("../src/index.js", import.meta.url));
 
 let server;
 let apiUrl;
