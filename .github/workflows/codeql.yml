@@ -1,0 +1,48 @@
+name: CodeQL
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Catches new queries shipped in CodeQL releases even when main is quiet.
+    - cron: "36 8 * * 2"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [actions, javascript-typescript]
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      # build-mode none reads the sources directly, so there is no pnpm install in this job.
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: none
+          queries: security-extended
+
+      - name: Analyze
+        uses: github/codeql-action/analyze@v4
+        with:
+          category: /language:${{ matrix.language }}
