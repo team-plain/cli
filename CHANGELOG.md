@@ -1,5 +1,11 @@
 # @team-plain/cli
 
+## 1.0.2
+
+### Patch Changes
+
+- 1b74762: Replace commander with Node's built-in argument parsing.
+
 ## 1.0.1
 
 ### Patch Changes
