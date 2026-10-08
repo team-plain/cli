@@ -4,6 +4,7 @@ import { createServer, type Server } from "node:http";
 import type { AddressInfo } from "node:net";
 import { after, before, beforeEach, describe, test } from "node:test";
 import { fileURLToPath } from "node:url";
+import packageJson from "../package.json" with { type: "json" };
 
 const CLI = fileURLToPath(new URL("../dist/index.mjs", import.meta.url));
 
@@ -154,6 +155,67 @@ describe("index-url", () => {
 
 		assert.equal(code, 0);
 		assert.match(stdout, /knowledgeSource:create/);
+	});
+});
+
+describe("argument parsing", () => {
+	test("accepts repeated label type flags", async () => {
+		const { code } = await run([
+			"index-url",
+			"-l",
+			"lt_1",
+			"--labelTypeIds=lt_2",
+			"--",
+			"https://example.com/page",
+		]);
+
+		assert.equal(code, 0);
+		assert.deepEqual(requests[0].body.variables, {
+			input: {
+				url: "https://example.com/page",
+				type: "URL",
+				labelTypeIds: ["lt_1", "lt_2"],
+			},
+		});
+	});
+
+	test("rejects a wrong number of arguments", async () => {
+		const { code, stderr } = await run(["index-url"]);
+
+		assert.equal(code, 1);
+		assert.match(stderr, /'index-url' expects one <url> argument, got 0/);
+		assert.equal(requests.length, 0);
+	});
+
+	test("rejects unknown options", async () => {
+		const { code, stderr } = await run(["index-url", "--nope", "a"]);
+
+		assert.equal(code, 1);
+		assert.match(stderr, /Unknown option '--nope'/);
+	});
+
+	test("rejects unknown commands", async () => {
+		const { code, stderr } = await run(["nope"]);
+
+		assert.equal(code, 1);
+		assert.match(stderr, /unknown command 'nope'/);
+	});
+});
+
+describe("help", () => {
+	test("lists every command", async () => {
+		const { code, stdout } = await run(["--help"]);
+
+		assert.equal(code, 0);
+		assert.match(stdout, /index-url/);
+		assert.match(stdout, /index-sitemap/);
+	});
+
+	test("prints the version", async () => {
+		const { code, stdout } = await run(["--version"]);
+
+		assert.equal(code, 0);
+		assert.equal(stdout.trim(), packageJson.version);
 	});
 });
 
