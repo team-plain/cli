@@ -1,0 +1,15 @@
+{
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "nodenext",
+		"moduleResolution": "nodenext",
+		"strict": true,
+		"skipLibCheck": true,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"erasableSyntaxOnly": true,
+		"noEmit": true,
+		"types": ["node"]
+	},
+	"include": ["src", "test", "tsdown.config.ts"]
+}

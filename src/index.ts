@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { PlainClient } from "@team-plain/graphql";
+import { type KnowledgeSourceType, PlainClient } from "@team-plain/graphql";
 import { program } from "commander";
 import packageJson from "../package.json" with { type: "json" };
 
@@ -8,7 +8,9 @@ const DOCS_URL = "https://www.plain.com/docs/product/agents/knowledge-sources";
 const PERMISSIONS_HELP =
 	"To use this you need to set an environment variable called PLAIN_API_KEY with the following permissions: \n- knowledgeSource:create";
 
-function getClient() {
+type IndexOptions = { labelTypeIds?: string[] };
+
+function getClient(): PlainClient {
 	const apiKey = process.env.PLAIN_API_KEY;
 	const apiUrl = process.env.PLAIN_API_URL;
 
@@ -27,12 +29,16 @@ function getClient() {
 	});
 }
 
-function fail(url, message) {
+function fail(url: string, message: string): never {
 	console.error(`Failed to index ${url}: ${message}`);
 	process.exit(1);
 }
 
-async function createKnowledgeSource(url, type, labelTypeIds = []) {
+async function createKnowledgeSource(
+	url: string,
+	type: KnowledgeSourceType,
+	labelTypeIds: string[] = [],
+): Promise<void> {
 	try {
 		const { error } = await getClient().mutation.createKnowledgeSource({
 			input: { url, type, labelTypeIds },
@@ -41,7 +47,7 @@ async function createKnowledgeSource(url, type, labelTypeIds = []) {
 			fail(url, `${error.message} (${error.code})`);
 		}
 	} catch (err) {
-		fail(url, err.message);
+		fail(url, err instanceof Error ? err.message : String(err));
 	}
 }
 
@@ -54,7 +60,7 @@ program
 	)
 	.argument("<url>")
 	.option("-l, --labelTypeIds <labelTypeIds...>", "Array of label type IDs")
-	.action(async (url, options) => {
+	.action(async (url: string, options: IndexOptions) => {
 		await createKnowledgeSource(url, "URL", options.labelTypeIds);
 		console.log(
 			`✅ Successfully indexed URL ${url} - The URL will be indexed and knowledge sources will be available in Plain. See ${DOCS_URL} for more information.`,
@@ -68,7 +74,7 @@ program
 	)
 	.argument("<sitemap url>")
 	.option("-l, --labelTypeIds <labelTypeIds...>", "Array of label type IDs")
-	.action(async (url, options) => {
+	.action(async (url: string, options: IndexOptions) => {
 		await createKnowledgeSource(url, "SITEMAP", options.labelTypeIds);
 		console.log(
 			`✅ Successfully indexed sitemap ${url} - The sitemap will be indexed and knowledge sources will be available in Plain. See ${DOCS_URL} for more information.`,

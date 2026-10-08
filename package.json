@@ -3,33 +3,41 @@
 	"private": false,
 	"version": "1.0.0",
 	"description": "CLI for interacting with the Plain API",
+	"license": "MIT",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/team-plain/cli.git"
 	},
 	"type": "module",
-	"main": "./src/index.js",
 	"bin": {
-		"plain": "./src/index.js"
+		"plain": "./dist/index.mjs"
 	},
 	"files": [
-		"src"
+		"dist"
 	],
 	"engines": {
 		"node": ">=22.12.0"
 	},
 	"scripts": {
+		"build": "tsdown",
+		"typecheck": "tsc",
 		"lint": "biome lint .",
 		"format": "biome format --write .",
 		"format:check": "biome format .",
 		"check": "biome check --write .",
+		"test": "pnpm build && node --test test/*.test.ts",
 		"changeset": "changeset",
-		"release": "changeset publish",
-		"test": "node --test"
+		"release": "pnpm build && changeset publish"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.5.14",
-		"@changesets/cli": "^3.0.3"
+		"@changesets/cli": "^3.0.3",
+		"@size-limit/file": "^14.1.0",
+		"@types/node": "^22.20.4",
+		"publint": "^0.3.24",
+		"size-limit": "^14.1.0",
+		"tsdown": "^0.23.0",
+		"typescript": "^7.0.2"
 	},
 	"dependencies": {
 		"@team-plain/graphql": "^3.2.0",

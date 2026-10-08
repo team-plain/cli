@@ -1,0 +1,8 @@
+[
+	{
+		"name": "@team-plain/cli",
+		"path": "dist/index.mjs",
+		"limit": "5 kB",
+		"brotli": false
+	}
+]
