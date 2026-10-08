@@ -1,5 +1,11 @@
 # @team-plain/cli
 
+## 1.0.1
+
+### Patch Changes
+
+- 53ad08c: Ship a bundled ESM build of the CLI, now written in TypeScript, in place of the raw source, and publish it under the MIT licence.
+
 ## 1.0.0
 
 ### Major Changes
