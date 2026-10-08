@@ -169,9 +169,6 @@ importers:
       '@team-plain/graphql':
         specifier: ^3.2.0
         version: 3.2.0
-      commander:
-        specifier: ^15.0.0
-        version: 15.0.0
     devDependencies:
       '@biomejs/biome':
         specifier: ^2.5.15
@@ -750,10 +747,6 @@ packages:
   cac@7.0.0:
     resolution: {integrity: sha512-tixWYgm5ZoOD+3g6UTea91eow5z6AAHaho3g0V9CNSNb45gM8SmflpAc+GRd1InC4AqN/07Unrgp56Y94N9hJQ==}
     engines: {node: '>=20.19.0'}
-
-  commander@15.0.0:
-    resolution: {integrity: sha512-z67u4ZhzCL/Tydu1lJARtEZYWbWaN7oYLHbsuzocr6y4N6WZAagG3RQ4FW61V1/0+jImpj293XfrcYnd1qxtPg==}
-    engines: {node: '>=22.12.0'}
 
   defu@6.1.7:
     resolution: {integrity: sha512-7z22QmUWiQ/2d0KkdYmANbRUVABpZ9SNYyH5vx6PZ+nE5bcC0l7uFvEfHlyld/HcGBFTL536ClDt3DEcSlEJAQ==}
@@ -1362,8 +1355,6 @@ snapshots:
   '@yuku-toolchain/types@0.10.2': {}
 
   cac@7.0.0: {}
-
-  commander@15.0.0: {}
 
   defu@6.1.7: {}
 
