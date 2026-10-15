@@ -1,2 +1,8 @@
 # 7 days. Keep at or below the Dependabot cooldown, or pnpm rejects its updates.
 minimumReleaseAge: 10080
+
+# pnpm 12 writes its own pinned version as a first YAML document in
+# pnpm-lock.yaml, and GitHub's dependency graph reads only that document, so
+# Dependabot sees no dependencies. CI installs the pinned pnpm through
+# pnpm/setup. https://github.com/dependabot/dependabot-core/issues/15904
+pmOnFail: ignore
