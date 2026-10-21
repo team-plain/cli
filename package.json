@@ -36,7 +36,7 @@
 		"@types/node": "^22.20.5",
 		"publint": "^0.3.25",
 		"size-limit": "^14.2.0",
-		"tsdown": "^0.23.0",
+		"tsdown": "^0.23.1",
 		"typescript": "^7.0.2"
 	},
 	"dependencies": {
