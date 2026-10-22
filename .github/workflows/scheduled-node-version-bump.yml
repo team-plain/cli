@@ -1,0 +1,76 @@
+name: Node.js version bump
+
+on:
+  schedule:
+    - cron: "0 6,18 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bump:
+    name: Bump Node.js
+    runs-on: ubuntu-slim
+    timeout-minutes: 5
+    steps:
+      - id: app
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ secrets.GH_WORKFLOW_APP_ID }}
+          private-key: ${{ secrets.GH_WORKFLOW_APP_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+
+      # A manual run from a feature branch would otherwise carry that branch's commits into the bump PR.
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+
+      - name: Open or update the bump PR
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          LINEAR_ISSUE: PE-1482
+        run: |
+          set -euo pipefail
+
+          # A major-only value such as 24 already tracks new releases.
+          CURRENT=$(tr -d '[:space:]v' < .nvmrc)
+          if ! [[ $CURRENT =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::notice::.nvmrc holds '${CURRENT}', not an exact version."
+            exit 0
+          fi
+
+          LATEST=$(curl -fsSL --retry 3 https://nodejs.org/dist/index.json |
+            jq -r --arg prefix "v${CURRENT%%.*}." 'map(.version | select(startswith($prefix)))[0] // "" | ltrimstr("v")')
+          if [ -z "$LATEST" ] || [ "$LATEST" = "$CURRENT" ]; then
+            echo "Node.js ${CURRENT} is up to date."
+            exit 0
+          fi
+
+          BRANCH=node-version-bump
+          TITLE="${LINEAR_ISSUE}: Bump Node.js to ${LATEST}"
+          if [ "$(gh pr list --head "$BRANCH" --json title --jq '.[0].title')" = "$TITLE" ]; then
+            echo "The PR for ${LATEST} is already open."
+            exit 0
+          fi
+
+          echo "$LATEST" > .nvmrc
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$BRANCH"
+          git commit -am "Bump Node.js to ${LATEST}"
+          gh auth setup-git
+          git push --force origin "$BRANCH"
+
+          BODY="${LINEAR_ISSUE}
+
+          Node.js ${LATEST} is out: https://github.com/nodejs/node/releases/tag/v${LATEST}"
+          # One branch for every bump, so a newer release updates the open PR instead of adding one.
+          PR=$(gh pr list --head "$BRANCH" --json number --jq '.[0].number // empty')
+          if [ -n "$PR" ]; then
+            gh pr edit "$PR" --title "$TITLE" --body "$BODY"
+          else
+            gh pr create --head "$BRANCH" --title "$TITLE" --body "$BODY"
+          fi
