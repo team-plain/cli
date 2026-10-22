@@ -1,7 +1,5 @@
 name: Node.js version bump
 
-# Copy of node-version-bump.yml in team-plain/github-actions. Public repos cannot call
-# a reusable workflow from a private repo; keep the script in sync with that one.
 on:
   schedule:
     - cron: "0 6,18 * * *"
