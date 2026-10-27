@@ -1,0 +1,10 @@
+{
+	"autoReview": ["open", "push"],
+	"autoApprove": {
+		"enabled": true,
+		"riskCeiling": "low",
+		"filters": {
+			"excludePaths": ["**/.greptile/**"]
+		}
+	}
+}
