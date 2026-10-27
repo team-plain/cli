@@ -23,6 +23,8 @@ updates:
       time: "10:30"
       timezone: "Europe/London"
     versioning-strategy: increase
+    # Majors land one per PR, so the default of 5 stalls the queue.
+    open-pull-requests-limit: 15
     # Must be at least minimumReleaseAge in pnpm-workspace.yaml.
     cooldown:
       default-days: 7
