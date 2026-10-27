@@ -7,8 +7,6 @@
 			"includePaths": ["**/*.md", "test/**"],
 			"excludePaths": [
 				"**/.greptile/**",
-				"**/CLAUDE.md",
-				"**/AGENTS.md",
 				".github/**",
 				"package.json",
 				"pnpm-lock.yaml",
