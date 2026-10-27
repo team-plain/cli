@@ -1,0 +1,20 @@
+{
+	"autoReview": ["open", "push"],
+	"autoApprove": {
+		"enabled": true,
+		"riskCeiling": "low",
+		"filters": {
+			"includePaths": ["**/*.md", "test/**"],
+			"excludePaths": [
+				".greptile/config.json",
+				".github/**",
+				"package.json",
+				"pnpm-lock.yaml",
+				"pnpm-workspace.yaml",
+				".nvmrc",
+				".changeset/**",
+				"CHANGELOG.md"
+			]
+		}
+	}
+}
