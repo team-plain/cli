@@ -6,7 +6,9 @@
 		"filters": {
 			"includePaths": ["**/*.md", "test/**"],
 			"excludePaths": [
-				".greptile/config.json",
+				"**/.greptile/**",
+				"**/CLAUDE.md",
+				"**/AGENTS.md",
 				".github/**",
 				"package.json",
 				"pnpm-lock.yaml",
