@@ -4,17 +4,7 @@
 		"enabled": true,
 		"riskCeiling": "low",
 		"filters": {
-			"includePaths": ["**/*.md", "test/**"],
-			"excludePaths": [
-				"**/.greptile/**",
-				".github/**",
-				"package.json",
-				"pnpm-lock.yaml",
-				"pnpm-workspace.yaml",
-				".nvmrc",
-				".changeset/**",
-				"CHANGELOG.md"
-			]
+			"excludePaths": ["**/.greptile/**"]
 		}
 	}
 }
