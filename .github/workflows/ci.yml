@@ -6,13 +6,16 @@ on:
   push:
     branches: [main]
 
-permissions:
-  contents: read
+permissions: {}
 
 jobs:
   lint:
     name: Lint
+    # GitHub-hosted, not depot: this repo is public, so fork PRs must not run on paid runners.
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
     steps:
       - name: Check out the repository
         uses: actions/checkout@v7
@@ -46,7 +49,11 @@ jobs:
 
   test:
     name: Test (Node ${{ matrix.node }})
+    # GitHub-hosted, not depot: this repo is public, so fork PRs must not run on paid runners.
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       matrix:

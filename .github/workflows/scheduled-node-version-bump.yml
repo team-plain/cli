@@ -5,14 +5,15 @@ on:
     - cron: "0 6,18 * * *"
   workflow_dispatch:
 
-permissions:
-  contents: read
+permissions: {}
 
 jobs:
   bump:
     name: Bump Node.js
     runs-on: ubuntu-slim
     timeout-minutes: 5
+    permissions:
+      contents: read
     steps:
       - id: app
         uses: actions/create-github-app-token@v3

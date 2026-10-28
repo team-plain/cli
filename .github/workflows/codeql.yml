@@ -13,9 +13,12 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
+permissions: {}
+
 jobs:
   analyze:
     name: Analyze (${{ matrix.language }})
+    # GitHub-hosted, not depot: this repo is public, so fork PRs must not run on paid runners.
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
