@@ -1,0 +1,8 @@
+# Advanced setup does not pick this directory up on its own; codeql.yml passes the pack to the CLI.
+name: team-plain/cli-trusted-actions-owners
+version: 0.0.0
+library: true
+extensionTargets:
+  codeql/actions-all: '*'
+dataExtensions:
+  - models/**/*.yml
