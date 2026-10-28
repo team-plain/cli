@@ -3,4 +3,7 @@ extensions:
       pack: codeql/actions-all
       extensible: trustedActionsOwnerDataModel
     data:
+      - ["aws-actions"]
       - ["pnpm"]
+      - ["pulumi"]
+      - ["team-plain"]
