@@ -4,8 +4,6 @@ version: 2
 updates:
   - package-ecosystem: github-actions
     directory: "/"
-    # A week of soak time before we pick up a release, so a compromised or
-    # yanked version has a chance to be caught upstream first.
     cooldown:
       default-days: 7
     schedule:
@@ -27,7 +25,6 @@ updates:
       interval: weekly
       time: "10:30"
       timezone: "Europe/London"
-    # Majors land one per PR, so the default of 5 stalls the queue.
     open-pull-requests-limit: 15
     # This is a published package, so Dependabot's default would widen ranges
     # instead of raising them.

@@ -11,7 +11,6 @@ permissions: {}
 jobs:
   lint:
     name: Lint
-    # GitHub-hosted, not depot: this repo is public, so fork PRs must not run on paid runners.
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -49,7 +48,6 @@ jobs:
 
   test:
     name: Test (Node ${{ matrix.node }})
-    # GitHub-hosted, not depot: this repo is public, so fork PRs must not run on paid runners.
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
