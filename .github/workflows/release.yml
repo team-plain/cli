@@ -7,16 +7,18 @@ on:
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
-permissions:
-  contents: write
-  pull-requests: write
-  # npm trusted publishing: pnpm exchanges the GitHub OIDC token for a short lived publish token.
-  id-token: write
+permissions: {}
 
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      pull-requests: write
+      # npm trusted publishing: pnpm exchanges the GitHub OIDC token for a short lived publish token.
+      id-token: write
     steps:
       - name: Check out the repository
         uses: actions/checkout@v7

@@ -4,13 +4,12 @@ version: 2
 updates:
   - package-ecosystem: github-actions
     directory: "/"
+    cooldown:
+      default-days: 7
     schedule:
       interval: weekly
       time: "10:30"
       timezone: "Europe/London"
-    # A week gives compromised action releases time to be discovered before adoption.
-    cooldown:
-      default-days: 7
     groups:
       gha-deps:
         patterns:
@@ -18,14 +17,18 @@ updates:
 
   - package-ecosystem: npm
     directory: "/"
+    # Must stay at or above minimumReleaseAge in pnpm-workspace.yaml (7 days),
+    # or pnpm rejects whatever Dependabot proposes.
+    cooldown:
+      default-days: 7
     schedule:
       interval: weekly
       time: "10:30"
       timezone: "Europe/London"
+    open-pull-requests-limit: 15
+    # This is a published package, so Dependabot's default would widen ranges
+    # instead of raising them.
     versioning-strategy: increase
-    # Must be at least minimumReleaseAge in pnpm-workspace.yaml.
-    cooldown:
-      default-days: 7
     groups:
       npm-patch:
         applies-to: version-updates
@@ -50,5 +53,4 @@ updates:
     ignore:
       # Tracks the minimum supported runtime in engines.node, not latest.
       - dependency-name: "@types/node"
-        update-types:
-          - "version-update:semver-major"
+        update-types: ["version-update:semver-major"]

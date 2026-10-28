@@ -1,4 +1,4 @@
-# 7 days. Keep at or below the Dependabot cooldown, or pnpm rejects its updates.
+saveExact: true
 minimumReleaseAge: 10080
 
 # pnpm 12 writes its own pinned version as a first YAML document in
