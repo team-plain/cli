@@ -96,3 +96,7 @@ publish new documentation to a Mintlify site.
   env:
     PLAIN_API_KEY: ${{ secrets.PLAIN_API_KEY }}
 ```
+
+## Code review
+
+Greptile auto-approves a PR it scores 5/5 and rates Low risk. Anything under `.greptile/` always needs a human, and so does a release: the Version Packages PR is opened by a bot, and Greptile does not review bot PRs.
