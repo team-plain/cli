@@ -7,7 +7,7 @@ on:
     branches: [main]
   schedule:
     # Catches new queries shipped in CodeQL releases even when main is quiet.
-    - cron: '36 8 * * 2'
+    - cron: "36 8 * * 2"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
