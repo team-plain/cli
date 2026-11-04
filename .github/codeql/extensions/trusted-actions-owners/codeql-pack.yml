@@ -2,6 +2,6 @@ name: team-plain/cli-trusted-actions-owners
 version: 0.0.0
 library: true
 extensionTargets:
-  codeql/actions-all: '*'
+  codeql/actions-all: "*"
 dataExtensions:
   - models/**/*.yml
